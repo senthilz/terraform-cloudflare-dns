@@ -1,9 +1,9 @@
-variable "zone_name" {
-  description = "The name of the Cloudflare zone to manage DNS records in"
+variable "zone_id" {
+  description = "The id of the cloudflare zone to manage DNS records in"
   type        = string
   validation {
     condition     = length(var.zone_name) > 0
-    error_message = "Zone name cannot be empty."
+    error_message = "Zone id cannot be empty."
   }
 }
 
@@ -12,17 +12,12 @@ variable "dns_records" {
   type = list(object({
     name     = string
     type     = string
-    value    = string
+    content  = string
     ttl      = optional(number, 1)
     priority = optional(number)
     proxied  = optional(bool, false)
     comment  = optional(string)
     tags     = optional(list(string))
-    settings = optional(object({
-      flatten_cname = optional(bool)
-      ipv4_only     = optional(bool)
-      ipv6_only     = optional(bool)
-    }))
   }))
   default = []
 
